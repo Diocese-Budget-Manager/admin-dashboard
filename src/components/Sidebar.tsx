@@ -8,8 +8,8 @@ import {
   Settings,
   LogOut,
   LogInIcon,
-  ArrowDown,
-  ArrowRight,
+  ChevronDown,
+  Building2,
 } from "lucide-react";
 
 // import { useAuth0 } from "@auth0/auth0-react";
@@ -20,6 +20,7 @@ import { logOut } from "../utils/api";
 const Sidebar = () => {
   // const { logout, loginWithRedirect } = useAuth0();
   const isLoggedIn = localStorage.getItem("token");
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
   const [showChildren, setShowChildren] = useState(false);
@@ -62,7 +63,7 @@ const Sidebar = () => {
       icon: ChurchIcon,
       label: "Dioceses",
       path: "/dioceses",
-      children: [{ path: "/parish", label: "Parishes", icon: ChurchIcon }],
+      children: [{ path: "/parish", label: "Parishes", icon: Building2 }],
     },
     { icon: BarChart3, label: "Analytics", path: "/analytics" },
     { icon: Upload, label: "Contributions", path: "/contributions" },
@@ -101,15 +102,18 @@ const Sidebar = () => {
               <span>{item.label}</span>{" "}
               {item.children && (
                 <button onClick={handleNavClick}>
-                  <span className="">
-                    {showChildren ? <ArrowDown /> : <ArrowRight />}
-                  </span>
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      showChildren ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
               )}
             </NavLink>
             {showChildren &&
               item.children?.map((child) => (
-                <NavLink
+                <div className="ml-4 mt-2 space-y-2" key={child.path}>
+                  <NavLink
                   to={child.path}
                   className={({ isActive }) =>
                     `flex items-center gap-3 p-3 rounded-lg transition-colors ${
@@ -122,7 +126,10 @@ const Sidebar = () => {
                   <child.icon />
                   <span>{child.label}</span>
                 </NavLink>
+                </div>
+                
               ))}
+            
           </>
         ))}
       </nav>
