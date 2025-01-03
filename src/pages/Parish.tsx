@@ -1,20 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import DataTable from "../components/DataTable";
 import { sampleParish } from "../utils/data";
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-} from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import CreateParishForm from "../components/forms/CreateParishForm";
+import ParishesTable from "../components/parishes/ParishesTable";
 
 export default function Parish() {
   const [open, setOpen] = useState(false);
+
   return (
     <>
-      <div className="p-6 ml-64">
+      {/* <div className="p-6 ml-64">
         <h1 className="text-2xl font-bold mb-6">Parish</h1>
         <div className="flex justify-end  mb-6">
           <button
@@ -26,7 +23,9 @@ export default function Parish() {
           </button>
         </div>
         <DataTable data={sampleParish} />
-      </div>
+      </div> */}
+
+      <ParishesTable parishes={sampleParish} createParish={setOpen} />
 
       <Dialog open={open} onClose={setOpen} className="relative">
         <DialogBackdrop
