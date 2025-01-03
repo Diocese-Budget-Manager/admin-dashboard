@@ -11,6 +11,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import DiocesePage from "./pages/dioceses/DiocesePage";
 import ParishesPage from "./pages/parishes/ParishesPage";
 import Login from "./pages/Login";
+import Contributions from "./pages/Contributions";
+import ParishPortal from "./pages/parish-portal/ParishPortal";
+import ParishDashboard from "./pages/parish-portal/ParishDashboard";
 
 function App() {
   const { isLoading, error, logout } = useAuth0();
@@ -39,9 +42,22 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
 
+          <Route path="/contributions" element={<Contributions />} />
+
+          {/* Parish portal */}
+          <Route path="portal" element={<ParishPortal />}>
+            <Route index element={<ParishDashboard />} />
+            <Route path="profile" element={<div>Profile</div>} />
+            <Route path="contributions" element={<Contributions />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+
           {/* Add more routes as needed */}
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
+
+          {/* Page not found */}
+          <Route path="*" element={<div>404 Page not found</div>} />
         </Routes>
       </div>
     </Router>
