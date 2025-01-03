@@ -1,15 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { LogIn } from "lucide-react";
+import { BluetoothConnectedIcon, LogIn } from "lucide-react";
 import { login } from "../utils/api";
+import { Switch } from "@headlessui/react";
 
 export default function Login() {
+  const [togglePortal, setTogglePortal] = useState(false);
+  const [redirectPortal, setRedirectPortal] = useState("/");
+
+  const portalButton = () => {
+    if (togglePortal) {
+      return (
+        <p>
+          Switch to Diocese Portal{" "}
+          <span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                setRedirectPortal("/?user=diocese");
+                setTogglePortal(false);
+              }}
+            >
+              <Switch />
+            </button>
+          </span>
+        </p>
+      );
+    }
+    return (
+      <p>
+        Switch to Parish Portal{" "}
+        <span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              setTogglePortal(true);
+              setRedirectPortal("/portal?user=res");
+            }}
+          >
+            <BluetoothConnectedIcon />
+          </button>
+        </span>
+      </p>
+    );
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     await login(email, password).then((res) => {
-      window.location.href = "/?user=res";
+      window.location.href = redirectPortal;
       console.log(res);
     });
   };
@@ -23,6 +65,7 @@ export default function Login() {
         }}
       >
         <h1 className="text-2xl font-bold">Login</h1>
+        {portalButton()}
         <div className="my-4">
           <label htmlFor="email" className="block mb-2">
             Email
