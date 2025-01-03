@@ -23,7 +23,7 @@ export interface Dioceses {
   budgetMonth?: number;
   budgetQuarter: number;
   parish: Parish[];
-};
+}
 
 export interface Parish {
   id: string;
@@ -39,6 +39,7 @@ export interface Parish {
   budgetYear: number;
   budgetMonth?: number;
   budgetQuarter: number;
+  status?: string;
 }
 
 export interface ContributionData {
