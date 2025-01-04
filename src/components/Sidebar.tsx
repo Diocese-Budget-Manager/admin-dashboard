@@ -86,7 +86,7 @@ const Sidebar = () => {
 
       <nav className="space-y-2">
         {navItems.map((item) => (
-          <>
+          <div key={item.path}>
             <NavLink
               key={item.path}
               to={item.path}
@@ -130,7 +130,7 @@ const Sidebar = () => {
                 
               ))}
             
-          </>
+          </div>
         ))}
       </nav>
 
