@@ -10,11 +10,15 @@ const Contributions = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const {fetchContributions, contributions} = useContributions();
+  const { fetchContributions, contributions } = useContributions();
 
   useEffect(() => {
-    fetchContributions().then(() => {setTransactions(contributions)});
+    fetchContributions();
   }, []);
+
+  useEffect(() => {
+    setTransactions(contributions);
+  }, [contributions]);
 
   const monthlyBalance: MonthlyBalance = {
     month: currentMonth.toLocaleString("default", {
