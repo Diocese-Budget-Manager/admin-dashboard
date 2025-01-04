@@ -5,27 +5,16 @@ import { sampleParish } from "../utils/data";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import CreateParishForm from "../components/forms/CreateParishForm";
 import ParishesTable from "../components/parishes/ParishesTable";
+import { useParish } from "../hooks/useParish";
 
 export default function Parish() {
   const [open, setOpen] = useState(false);
+  const { parishes } = useParish();
+  const token = localStorage.getItem("token");
 
   return (
     <>
-      {/* <div className="p-6 ml-64">
-        <h1 className="text-2xl font-bold mb-6">Parish</h1>
-        <div className="flex justify-end  mb-6">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="bg-blue-500 text-white px-2 py-1 rounded-md"
-          >
-            Add Parish
-          </button>
-        </div>
-        <DataTable data={sampleParish} />
-      </div> */}
-
-      <ParishesTable parishes={sampleParish} createParish={setOpen} />
+      <ParishesTable parishes={token ? parishes : sampleParish} createParish={setOpen} />
 
       <Dialog open={open} onClose={setOpen} className="relative">
         <DialogBackdrop
