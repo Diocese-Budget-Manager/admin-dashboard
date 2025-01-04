@@ -4,14 +4,18 @@ export default function InputField({
   label,
   type,
   name,
+  value,
   required,
   className,
+  onChange,
 }: {
   label: string;
   type: string;
   name: string;
+  value?: string | number;
   required?: boolean;
   className?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className="mb-4">
@@ -23,7 +27,9 @@ export default function InputField({
         type={type}
         id={name}
         name={name}
+        value={value}
         required={required}
+        onChange={onChange}
       />
     </div>
   );
