@@ -4,7 +4,7 @@ import { Parish } from "../../types/diocese";
 
 interface ParishSettingsProps {
   parish: Parish;
-  onSave: (updatedParish: Parish) => void;
+  onSave: (updatedParish: Parish) => Promise<void>;
 }
 
 const ParishSettings: React.FC<ParishSettingsProps> = ({ parish, onSave }) => {
@@ -12,6 +12,7 @@ const ParishSettings: React.FC<ParishSettingsProps> = ({ parish, onSave }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form data:", formData);
     onSave(formData);
   };
 

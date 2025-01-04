@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Search, Filter, Download, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import { Parish } from "../../types/diocese";
 
 export default function ParishesTable({ parishes, createParish }: { parishes: Parish[], createParish: (open: boolean) => void; }) {
   const [searchTerm, setSearchTerm] = useState("");
-
+  
   const filteredParishes = parishes.filter(
     (parish) => parish.name.toLowerCase().includes(searchTerm.toLowerCase()),
     // parish.diocese.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -56,9 +56,9 @@ export default function ParishesTable({ parishes, createParish }: { parishes: Pa
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Diocese
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   bishop
-                </th>
+                </th> */}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Contact
                 </th>
@@ -72,21 +72,21 @@ export default function ParishesTable({ parishes, createParish }: { parishes: Pa
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredParishes.map((parish) => (
-                <tr key={parish.id} className="hover:bg-gray-50">
+                <tr key={parish._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">
-                      <Link to={`/parish/${parish.id}`}>{parish.name}</Link>
+                      <Link to={`/parish/${parish._id}`}>{parish.name}</Link>
                     </div>
                     <div className="text-sm text-gray-500">
                       {parish.address}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
-                    {parish.diocese}
+                    {parish.diocese.name}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                  {/* <td className="px-6 py-4 text-sm text-gray-500">
                     {parish.description}
-                  </td>
+                  </td> */}
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-500">{parish.phone}</div>
                     <div className="text-sm text-gray-500">{parish.email}</div>
