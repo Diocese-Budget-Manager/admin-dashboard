@@ -14,9 +14,11 @@ import Login from "./pages/Login";
 import Contributions from "./pages/Contributions";
 import ParishPortal from "./pages/parish-portal/ParishPortal";
 import ParishDashboard from "./pages/parish-portal/ParishDashboard";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
   const { isLoading, error, logout } = useAuth0();
+  const { isAuthenticated } = useAuth();
 
   if (error) {
     return (
@@ -25,9 +27,14 @@ function App() {
       </div>
     );
   }
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
