@@ -1,10 +1,12 @@
 export interface Transaction {
-  id: string;
+  _id: string;
   date: string;
   type: "income" | "expense";
-  category: string;
   description: string;
   amount: number;
+  source: string;
+  parish: string;
+  diocese: string;
 }
 
 export interface MonthlyBalance {

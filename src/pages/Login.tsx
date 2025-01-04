@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-import {LogIn } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { login } from "../utils/api";
 import { Switch } from "@headlessui/react";
+import AuthContext from "../provider/context/AuthContext";
 
 export default function Login() {
   const [togglePortal, setTogglePortal] = useState(false);
   const [redirectPortal, setRedirectPortal] = useState("/");
-
+  const { setIsAuthenticated } = useContext(AuthContext);
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const portalButton = () => {
     if (togglePortal) {
       return (
@@ -39,23 +41,22 @@ export default function Login() {
       </button>
     );
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = formData.email as string;
+    const password = formData.password as string;
     await login(email, password).then((res) => {
-      window.location.href = redirectPortal;
-      console.log(res);
+      if (!res.error) {
+        setIsAuthenticated(true);
+        window.location.href = redirectPortal;
+      }
     });
   };
   return (
     <div className="ml-64 p-6  mx-auto">
       <form
         className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4 max-w-full"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(e);
-        }}
+        onSubmit={handleSubmit}
       >
         <h1 className="text-2xl font-bold">Login</h1>
         {portalButton()}
@@ -68,6 +69,10 @@ export default function Login() {
             type="email"
             id="email"
             name="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             required
           />
         </div>
@@ -80,11 +85,18 @@ export default function Login() {
             type="password"
             id="password"
             name="password"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             required
           />
         </div>
         <div className="mt-8">
-          <button type="submit" className="btn flex">
+          <button
+            type="submit"
+            className="btn flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
             <LogIn /> &nbsp; Login
           </button>
         </div>

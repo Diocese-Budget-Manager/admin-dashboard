@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusCircle } from "lucide-react";
 import { Transaction } from "../../types/contributions";
+import { useParams } from "react-router-dom";
 
 interface TransactionFormProps {
-  onSubmit: (transaction: Omit<Transaction, "id">) => void;
+  onSubmit: (transaction: Omit<Transaction, "_id">) => Promise<void>;
+  dioceseId?: string;
 }
 
-const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit }) => {
+
+const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, dioceseId }) => {
+  const { parishId } = useParams();
+
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split("T")[0],
     type: "income",
-    category: "",
+    source: "",
     description: "",
+    parish: parishId ?? "",
+    diocese: dioceseId ?? "",
     amount: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form data:", formData);
     onSubmit({
       ...formData,
       amount: parseFloat(formData.amount),
@@ -24,9 +32,11 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit }) => {
     setFormData({
       date: new Date().toISOString().split("T")[0],
       type: "income",
-      category: "",
+      source: "",
       description: "",
       amount: "",
+      parish: formData.parish,
+      diocese: formData.diocese,
     });
   };
 
@@ -67,13 +77,13 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit }) => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Category
+            Category / Source
           </label>
           <input
             type="text"
-            value={formData.category}
+            value={formData.source}
             onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
+              setFormData({ ...formData, source: e.target.value })
             }
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             required

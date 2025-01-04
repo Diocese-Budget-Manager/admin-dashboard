@@ -31,10 +31,6 @@ function App() {
     return <Login />;
   }
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">

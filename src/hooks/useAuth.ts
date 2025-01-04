@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { endpoint } from "../utils/constants";
+import { login, logOut } from "../utils/api";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/helpers";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -30,9 +33,44 @@ export const useAuth = () => {
     }
   };
 
+  const userLogin = async (email: string, password: string) => {
+    await login(email, password).then((res) => {
+      if (!res.error) {
+        setIsAuthenticated(true);
+        setUser(res);
+      }
+    });
+  };
+
+  const userLogout = async () => {
+    await logOut();
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
+  const checkAuth = async () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await fetchUser();
+      } else {
+        await logOut();
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    });
+  };
+
   useEffect(() => {
-    fetchUser();
+    checkAuth();
   }, []);
 
-  return { user, loading, isAuthenticated };
+  return {
+    user,
+    login,
+    userLogin,
+    userLogout,
+    loading,
+    isAuthenticated,
+    setIsAuthenticated,
+  };
 };

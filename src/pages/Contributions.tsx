@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import TransactionForm from "../components/contributions/TransactionForm";
+// import TransactionForm from "../components/contributions/TransactionForm";
 import MonthlyOverview from "../components/contributions/MonthlyOverview";
 import TransactionList from "../components/contributions/TransactionList";
 import { Transaction, MonthlyBalance } from "../types/contributions";
+import { useContributions } from "../hooks/useContributions";
 
 const Contributions = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  const {fetchContributions, contributions} = useContributions();
+
+  useEffect(() => {
+    fetchContributions().then(() => {setTransactions(contributions)});
+  }, []);
 
   const monthlyBalance: MonthlyBalance = {
     month: currentMonth.toLocaleString("default", {
@@ -24,13 +31,16 @@ const Contributions = () => {
   };
   monthlyBalance.balance = monthlyBalance.income - monthlyBalance.expenses;
 
-  const handleNewTransaction = (transaction: Omit<Transaction, "id">) => {
-    const newTransaction = {
-      ...transaction,
-      id: Math.random().toString(36).substr(2, 9),
-    };
-    setTransactions([...transactions, newTransaction]);
-  };
+  // const handleNewTransaction = async (transaction: Omit<Transaction, "_id">) => {
+  //   const newTransaction = {
+  //     ...transaction,
+  //     _id: Math.random().toString(36).substr(2, 9),
+  //   };
+  //   await createContributionHook(newTransaction).then((res) => {
+  //     console.log(res);
+  //   });
+  //   setTransactions([...transactions, newTransaction]);
+  // };
 
   const changeMonth = (offset: number) => {
     const newDate = new Date(currentMonth);
@@ -66,7 +76,7 @@ const Contributions = () => {
 
       <div className="space-y-6">
         <MonthlyOverview balance={monthlyBalance} />
-        <TransactionForm onSubmit={handleNewTransaction} />
+        {/* <TransactionForm onSubmit={handleNewTransaction} /> */}
         <TransactionList transactions={transactions} />
       </div>
     </div>

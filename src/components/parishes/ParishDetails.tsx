@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import ParishTabs from "./ParishTabs";
 import ParishInfo from "./ParishInfo";
@@ -41,7 +41,7 @@ const ParishDetail = () => {
       case "info":
         return <ParishInfo parish={parish} />;
       case "contributions":
-        return <ParishContributions />;
+        return <ParishContributions parish={parish} />;
       case "settings":
         return <ParishSettings parish={parish} onSave={handleSaveSettings} />;
       default:
@@ -75,7 +75,7 @@ const ParishDetail = () => {
       </div>
 
       <ParishTabs activeTab={activeTab} onTabChange={setActiveTab} />
-
+      <Suspense fallback={<div>Loading ...</div>} />
       <div className="mt-6">{renderTabContent()}</div>
     </div>
   );

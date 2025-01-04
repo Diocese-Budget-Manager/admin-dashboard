@@ -77,6 +77,10 @@ const Sidebar = () => {
 
   // const loginPath = `https://${domain}/authorize?audience=${audience}&response_type=token&client_id=${clientId}&redirect_uri=${callbackURL}`;
 
+  // if (!isAuthenticated) {
+  //   return <div></div>;
+  // }
+
   return (
     <div className="h-screen w-64 bg-gray-900 text-white p-4 fixed left-0 top-0">
       <div className="flex items-center gap-2 mb-8">
@@ -114,22 +118,20 @@ const Sidebar = () => {
               item.children?.map((child) => (
                 <div className="ml-4 mt-2 space-y-2" key={child.path}>
                   <NavLink
-                  to={child.path}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 p-3 rounded-lg transition-colors ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-gray-800"
-                    }`
-                  }
-                >
-                  <child.icon />
-                  <span>{child.label}</span>
-                </NavLink>
+                    to={child.path}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                        isActive
+                          ? "bg-blue-600 text-white"
+                          : "text-gray-300 hover:bg-gray-800"
+                      }`
+                    }
+                  >
+                    <child.icon />
+                    <span>{child.label}</span>
+                  </NavLink>
                 </div>
-                
               ))}
-            
           </div>
         ))}
       </nav>
@@ -143,18 +145,18 @@ const Sidebar = () => {
           <span>Logout</span>
         </button>
       ) : (
-        <button
-          onClick={() => loginButton()}
+        // <button
+        //   onClick={() => loginButton()}
+        //   className="flex items-center gap-3 p-3 text-gray-300 hover:bg-gray-800 rounded-lg mt-auto absolute bottom-4 w-[calc(100%-2rem)]"
+        // >
+        <NavLink
+          to={"/login"}
           className="flex items-center gap-3 p-3 text-gray-300 hover:bg-gray-800 rounded-lg mt-auto absolute bottom-4 w-[calc(100%-2rem)]"
         >
-          {/* <NavLink
-          to={loginPath}
-          className="flex items-center gap-3 p-3 text-gray-300 hover:bg-gray-800 rounded-lg mt-auto absolute bottom-4 w-[calc(100%-2rem)]"
-        > */}
           <LogInIcon className="h-5 w-5" />
           <span>Login</span>
-          {/* </NavLink> */}
-        </button>
+        </NavLink>
+        // </button>
       )}
     </div>
   );

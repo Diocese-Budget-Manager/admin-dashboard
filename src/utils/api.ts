@@ -5,20 +5,23 @@ import { endpoint } from "./constants";
 export const login = async (email: string, password: string) => {
   try {
     const user = await signInWithEmailAndPassword(firebase, email, password);
-    user.user.getIdToken().then((token) => {
-      localStorage.setItem("token", token);
-      fetch(`${endpoint}/auth/login`, {
-        method: "POST",
-        body: JSON.stringify({ token }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        return response.json();
-      });
+    const token = await user.user.getIdToken();
+    localStorage.setItem("token", token);
+    const res = await fetch(`${endpoint}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify({ token }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
+    if (res.status === 200) {
+      return res.json();
+    } else {
+      throw new Error(`Error: `);
+    }
   } catch (error) {
-    return error;
+    return { error: error };
   }
 };
 
@@ -39,7 +42,3 @@ export const logOut = async () => {
     return error;
   }
 };
-
-
-
-
