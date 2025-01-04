@@ -10,11 +10,12 @@ export const createParish = async (data: any) => {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.json();
   } catch (error) {
+    console.log("Error creating parish:", error);
     return error;
   }
 };
@@ -25,7 +26,7 @@ export const getParishes = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.json();
@@ -40,7 +41,7 @@ export const getParish = async (id: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.json();
@@ -56,7 +57,7 @@ export const updateParish = async (id: string, data: any) => {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.json();
@@ -71,7 +72,7 @@ export const deleteParish = async (id: string) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.json();
