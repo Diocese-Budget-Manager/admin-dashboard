@@ -7,7 +7,7 @@ import Diocese from "./pages/Diocese";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Parish from "./pages/Parish";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import DiocesePage from "./pages/dioceses/DiocesePage";
 import ParishesPage from "./pages/parishes/ParishesPage";
 import Login from "./pages/Login";
@@ -17,23 +17,23 @@ import ParishDashboard from "./pages/parish-portal/ParishDashboard";
 import { useAuth } from "./hooks/useAuth";
 
 function App() {
-  const { isLoading, error, logout } = useAuth0();
+  // const { isLoading, error, logout } = useAuth0();
   const { isAuthenticated } = useAuth();
 
-  if (error) {
-    return (
-      <div>
-        Oops... {error.message} <button onClick={() => logout()}>Logout</button>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div>
+  //       Oops... {error.message} <button onClick={() => logout()}>Logout</button>
+  //     </div>
+  //   );
+  // }
   if (!isAuthenticated) {
     return <Login />;
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <Router>
