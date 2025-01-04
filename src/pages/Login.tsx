@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { BluetoothConnectedIcon, LogIn } from "lucide-react";
+import {LogIn } from "lucide-react";
 import { login } from "../utils/api";
 import { Switch } from "@headlessui/react";
 
@@ -11,39 +11,32 @@ export default function Login() {
   const portalButton = () => {
     if (togglePortal) {
       return (
-        <p>
-          Switch to Diocese Portal{" "}
-          <span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                setRedirectPortal("/?user=diocese");
-                setTogglePortal(false);
-              }}
-            >
-              <Switch />
-            </button>
-          </span>
-        </p>
+        <button
+          type="button"
+          className="rounded-md bg-blue-500 text-white px-4 py-2"
+          onClick={(e) => {
+            e.preventDefault();
+            setRedirectPortal("/?user=diocese");
+            setTogglePortal(false);
+          }}
+        >
+          Switch to Diocese Portal <Switch />
+        </button>
       );
     }
     return (
-      <p>
-        Switch to Parish Portal{" "}
-        <span>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setTogglePortal(true);
-              setRedirectPortal("/portal?user=res");
-            }}
-          >
-            <BluetoothConnectedIcon />
-          </button>
-        </span>
-      </p>
+      <button
+        type="button"
+        className="rounded-md bg-blue-500 text-white px-4 py-2"
+        onClick={(e) => {
+          e.preventDefault();
+          setTogglePortal(true);
+          setRedirectPortal("/portal?user=res");
+        }}
+      >
+        {" "}
+        Switch to Parish Portal
+      </button>
     );
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
