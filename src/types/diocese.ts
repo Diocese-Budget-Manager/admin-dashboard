@@ -34,7 +34,7 @@ export interface Parish {
   email: string;
   image: string;
   description: string;
-  diocese: string;
+  diocese: Dioceses;
   budgetAllocation: number;
   budgetYear: number;
   budgetMonth?: number;
